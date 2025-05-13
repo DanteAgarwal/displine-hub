@@ -39,18 +39,16 @@
 #             c.execute("UPDATE habits SET status='Done' WHERE id=?", (id,))
 #             conn.commit()
 import streamlit as st
+import sqlite3
 import datetime
-from modules.db import c, conn
 
-def habit_tracker_main(shared_data):
-    # Background task logic
-    while True:
-        habits_done = len([r for r in c.execute("SELECT * FROM habits WHERE status='Done'")])
-        shared_data["habits_done"] = habits_done
-        time.sleep(60)  # Update every minute
-
-def habit_tracker_ui():
+def habit_tracker():
     st.subheader("📊 Habit Tracker")
+    conn = sqlite3.connect('disciplinehub.db')
+    c = conn.cursor()
+    c.execute('''CREATE TABLE IF NOT EXISTS habits (id INTEGER PRIMARY KEY, name TEXT, status TEXT, date TEXT)''')
+    conn.commit()
+
     habit = st.text_input("Enter Habit")
     if st.button("Add Habit"):
         c.execute("INSERT INTO habits (name, status, date) VALUES (?, ?, ?)", (habit, 'Pending', datetime.date.today()))
@@ -61,3 +59,4 @@ def habit_tracker_ui():
         if st.checkbox(name, value=(status=='Done')):
             c.execute("UPDATE habits SET status='Done' WHERE id=?", (id,))
             conn.commit()
+    conn.close()

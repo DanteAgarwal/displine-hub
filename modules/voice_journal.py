@@ -7,7 +7,7 @@ def voice_journal():
     recognizer = sr.Recognizer()
 
     # Use a pre-recorded audio file for testing
-    audio_file_path = "path_to_your_audio_file.wav"  # Replace with the path to your audio file
+    audio_file_path = "file_example_WAV_1MG.wav"  # Replace with the path to your audio file
     with sr.AudioFile(audio_file_path) as source:
         st.info("🎙 Using pre-recorded audio for testing...")
         audio = recognizer.record(source)

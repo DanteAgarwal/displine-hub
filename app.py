@@ -165,7 +165,8 @@ from modules.voice_journal import voice_journal
 # ======================
 # Init Section
 # ======================
-st.set_page_config(page_title="DisciplineHub", layout="wide")
+st.set_page_config(page_title="DisciplineHub", layout="wide")  # 👈 FIRST thing on the page
+
 st.title("🧠 DisciplineHub – Master Your Mind")
 
 # ======================
