@@ -2,7 +2,7 @@ import requests
 
 # API Configuration
 API_URL = "https://router.huggingface.co/together/v1/chat/completions"
-API_TOKEN = "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"  # Replace with your actual token
+# API_TOKEN = "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"  # Replace with your actual token
 headers = {
     "Authorization": f"Bearer {API_TOKEN}",
 }
