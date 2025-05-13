@@ -152,96 +152,32 @@
 # scheduler.start()
 
 
-from multiprocessing import Manager, Process
-
 import streamlit as st
+from modules.home import home
+from modules.habit_tracker import habit_tracker
+from modules.timebox_tyrant import timebox_tyrant
+from modules.habitforge import habitforge
+from modules.focus_mode import focus_mode
+from modules.accountability_bot import accountability_bot
+from modules.discipline_score import discipline_score
+from modules.voice_journal import voice_journal
 
-from modules.accountability_bot import accountability_main
-from modules.discipline_score import score_main
+# ======================
+# Init Section
+# ======================
+st.set_page_config(page_title="DisciplineHub", layout="wide")
+st.title("🧠 DisciplineHub – Master Your Mind")
 
-# Import background workers
-from modules.habit_tracker import habit_tracker_main
-from modules.habitforge import habitforge_main
-from modules.timebox_tyrant import tyrant_main
-from modules.voice_journal import journal_main
+# ======================
+# Streamlit Tabs
+# ======================
+tabs = st.tabs(["Home", "Tracker", "Timebox", "HabitForge", "Focus Mode", "Accountability", "Score", "Voice Journal"])
 
-
-def run_all_workers(shared_data):
-    processes = []
-    workers = [
-        habit_tracker_main,
-        tyrant_main,
-        habitforge_main,
-        accountability_main,
-        score_main,
-        journal_main,
-    ]
-    for worker in workers:
-        p = Process(target=worker, args=(shared_data,), daemon=True)
-        p.start()
-        processes.append(p)
-    return processes
-
-
-# Run app
-def main():
-    st.title("🧠 DisciplineHub: One Hub to Rule Your Chaos")
-
-    manager = Manager()
-    shared_data = manager.dict()
-
-    # Start background data update processes
-    if "started" not in st.session_state:
-        run_all_workers(shared_data)
-        st.session_state.started = True
-
-    st.header("📊 Live Discipline Dashboard")
-    st.metric("✅ Habits Done Today", shared_data.get("habits_done", "⏳"))
-    st.metric("🎯 Goals Set", shared_data.get("goals_count", "⏳"))
-    st.metric("🔥 Discipline Score", shared_data.get("discipline_score", "⏳"))
-    st.write(
-        "🧘 Latest Voice Journal Entry:",
-        shared_data.get("latest_journal", "No entry yet."),
-    )
-
-    st.sidebar.title("🧭 Navigate")
-    module = st.sidebar.radio(
-        "Choose a Module",
-        [
-            "Habit Tracker",
-            "Timebox Tyrant",
-            "HabitForge",
-            "Accountability Bot",
-            "Discipline Score",
-            "Voice Journal",
-        ],
-    )
-
-    if module == "Habit Tracker":
-        from modules.habit_tracker import habit_tracker_ui
-
-        habit_tracker_ui()
-    elif module == "Timebox Tyrant":
-        from modules.timebox_tyrant import timebox_tyrant_ui
-
-        timebox_tyrant_ui()
-    elif module == "HabitForge":
-        from modules.habitforge import habitforge_ui
-
-        habitforge_ui()
-    elif module == "Accountability Bot":
-        from modules.accountability_bot import accountability_ui
-
-        accountability_ui()
-    elif module == "Discipline Score":
-        from modules.discipline_score import discipline_score_ui
-
-        discipline_score_ui()
-    elif module == "Voice Journal":
-        from modules.voice_journal import voice_journal_ui
-
-        voice_journal_ui()
-
-
-if __name__ == "__main__":
-    main()
+with tabs[0]: home()
+with tabs[1]: habit_tracker()
+with tabs[2]: timebox_tyrant()
+with tabs[3]: habitforge()
+with tabs[4]: focus_mode()
+with tabs[5]: accountability_bot()
+with tabs[6]: discipline_score()
+with tabs[7]: voice_journal()
