@@ -1,0 +1,50 @@
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+skip-string-normalization = false
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.mypy_cache
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+select = [
+    "E",  # pycodestyle (errors)
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # bugbear
+    "UP", # pyupgrade
+    "C90", # mccabe complexity
+]
+ignore = [
+    "E501",  # line too long (handled by Black)
+]
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    ".venv",
+    ".eggs",
+    "*.egg",
+]
+fix = true
+unsafe-fixes = false
+show-fixes = true
+preview = true
+
+[tool.ruff.isort]
+known-first-party = ["your_project"]
+combine-as-imports = true
+force-single-line = false
+lines-between-types = 1
